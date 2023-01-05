@@ -3,11 +3,12 @@
 import socket
 import secrets
 from http.server import HTTPServer, BaseHTTPRequestHandler, HTTPStatus
+import time
 
 import cbor2
 import pycose.messages, pycose.keys, pycose.headers, pycose.algorithms
 
-def generate_token_for(key, scope):
+def generate_token_for(key, scope, exp):
     # for encrypted token
     #
     # A realistic server should either implement a counter here, or keep track
@@ -27,6 +28,7 @@ def generate_token_for(key, scope):
         }}
     # keys from OAuth Parameters CBOR Mappings
     encrypted = {
+            4: int(exp),
             8: cnf,
             9: scope,
             # Not repeating RS or AS: our RS only have one AS, and they'll know from the unique keys that it's for them
@@ -79,8 +81,10 @@ class AceServer(BaseHTTPRequestHandler):
 
         if scope == 'bearer senior':
             aif = [['/temp', 0], ['/identify', 1], ['/leds', 2]]
+            expiry = 2 * 60 * 60
         elif scope == 'bearer junior':
             aif = [['/temp', 0], ['/identify', 1]]
+            expiry = 5 * 60
         else:
             self.send_response(HTTPStatus.UNAUTHORIZED)
             self.send_header('Access-Control-Allow-Origin', self.headers.get('Origin'))
@@ -104,7 +108,7 @@ class AceServer(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', self.headers.get('Origin'))
         self.send_header('Access-Control-Allow-Credentials', 'true')
         self.end_headers()
-        self.wfile.write(generate_token_for(rs_key, scope))
+        self.wfile.write(generate_token_for(rs_key, scope, time.time() + expiry))
 
 class HTTP6Server(HTTPServer):
     address_family = socket.AF_INET6
@@ -115,5 +119,5 @@ def run():
 
 if __name__ == "__main__":
     rs_key = pycose.keys.SymmetricKey(bytes(list(b'abc') + list(range(4, 33))))
-    #print(cbor2.loads(generate_token_for(rs_key, scope=b"somescope")))
+    #print(cbor2.loads(generate_token_for(rs_key, scope=b"somescope", exp=2**32-1)))
     run()
