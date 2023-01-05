@@ -8,22 +8,17 @@
     <body>
         <h1>Demo Single Sign On</h1>
         <p>In a more realistic scenario, users might enter their credentials here, or would preferably be sent through OAuth or similar login systems.<p>
-        <p>Current status: <b id="status">unknown (JavaScript loading…)</b></p>
         <p>Log in as:</p>
         <ul>
-            <li><button onclick="set('senior')">Log in as Senior</button></li>
-            <li><button onclick="set('junior')">Log in as Junior</button></li>
-            <li><button onclick="set('')">Log out</button></li>
+            <li><button onclick="login_as('senior')">Log in as Senior</button></li>
+            <li><button onclick="login_as('junior')">Log in as Junior</button></li>
         </ul>
     </body>
     <script>
-        function set(value) {
-            document.cookie = "role=" + value + ";samesite=lax"; // secure ?
-            get();
+        function login_as(role) {
+            let params = (new URL(document.location)).searchParams;
+            let target = params.get('append_and_redirect');
+            document.location.assign(target + 'bearer%20' + role);
         }
-        function get() {
-            document.getElementById("status").childNodes[0].nodeValue = document.cookie.substr(5) || "not logged in";
-        }
-        get();
     </script>
 </html>
