@@ -1,2 +1,3 @@
 pycose == 1.0.1
 cbor2 == 5.4.6
+pyyaml

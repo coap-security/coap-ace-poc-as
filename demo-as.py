@@ -4,9 +4,16 @@ import socket
 import secrets
 from http.server import HTTPServer, BaseHTTPRequestHandler, HTTPStatus
 import time
+from pathlib import Path
+import yaml
 
 import cbor2
 import pycose.messages, pycose.keys, pycose.headers, pycose.algorithms
+
+configs_by_audience = {}
+for config in Path("configs/").glob('*.yaml'):
+    data = yaml.safe_load(open(config))
+    configs_by_audience[data['audience']] = data
 
 def generate_token_for(key, scope, exp):
     # for encrypted token
@@ -97,11 +104,10 @@ class AceServer(BaseHTTPRequestHandler):
 
         request = cbor2.load(self.rfile)
         # from ACE Authorization Server Request Creation Hints
-        rs = request[5]
+        audience = request[5]
         # ignoring scope, we'll tell them what they can have
 
-        # FIXME should be derived from rs value
-        rs_key = pycose.keys.SymmetricKey(bytes(list(b'abc') + list(range(4, 33))))
+        rs_key = pycose.keys.SymmetricKey(bytes.fromhex(configs_by_audience[audience]['key']))
 
         self.send_response(HTTPStatus.CREATED)
         self.send_header('Content-Format', 'application/ace+cbor')
