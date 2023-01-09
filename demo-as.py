@@ -16,6 +16,9 @@ for config in Path("configs/").glob('*.yaml'):
     configs_by_audience[data['audience']] = data
 
 def generate_token_for(key, scope, exp):
+    """Generate an ACE-OSCORE token with fresh key material for communication
+    with the RS with which the given `key` is agreed."""
+
     # for encrypted token
     #
     # A realistic server should either implement a counter here, or keep track
@@ -61,9 +64,17 @@ def generate_token_for(key, scope, exp):
     return cbor2.dumps(message)
 
 class AceServer(BaseHTTPRequestHandler):
-    def do_GET(self):
-        print("Headers are", self.headers)
+    """HTTP handler implementing a simple ACE AS.
 
+    This supports POSTs to /token as per the ACE OSCORE profile. An OPTIONS
+    handler ensures that CORS requirements are met.
+
+    Unauthenticated requests are redirected to `/`, where the index.html page
+    is served. That page takes care of the bespoke OAuth-like protocol the
+    client webapp expects.
+    """
+
+    def do_GET(self):
         if self.path == "/" or self.path.startswith("/?"):
             self.send_response(HTTPStatus.FOUND)
             self.end_headers()
@@ -124,6 +135,6 @@ def run():
     httpd.serve_forever()
 
 if __name__ == "__main__":
-    rs_key = pycose.keys.SymmetricKey(bytes(list(b'abc') + list(range(4, 33))))
+    #rs_key = pycose.keys.SymmetricKey(bytes(list(b'abc') + list(range(4, 33))))
     #print(cbor2.loads(generate_token_for(rs_key, scope=b"somescope", exp=2**32-1)))
     run()
