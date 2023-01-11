@@ -78,7 +78,7 @@ class AceServer(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.path == "/" or self.path.startswith("/?"):
-            self.send_response(HTTPStatus.FOUND)
+            self.send_response(HTTPStatus.OK)
             self.end_headers()
             self.wfile.write(open('index.html', 'rb').read())
         elif self.path == "/token":
