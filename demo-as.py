@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright 2022 EDF. This software was developed in collaboration with Christian Amsüss.
+# SPDX-License-Identifier: BSD-3-Clause
 
 import socket
 import secrets

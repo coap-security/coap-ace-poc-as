@@ -37,3 +37,11 @@ $ source ./venv/bin/activate
 $ pip install -r requirements.txt
 $ python3 ./demo-as.py
 ```
+
+License
+-------
+
+Copyright 2022 EDF. This software was developed in collaboration with Christian Amsüss.
+
+This software is free software licensed under the BSD-3 Clause License as
+published by the Open Source Initiative. See [the license file](LICENSE.md) for details.
