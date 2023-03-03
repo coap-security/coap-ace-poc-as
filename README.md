@@ -19,6 +19,8 @@ which uses a vastly simplifying bowdlerization of the OAuth protocol in a fashio
 **Please also see
 [the corrresponding firmware's README file],
 which explains the whole setup and contains further links.**
+The precise protocol between the Client and the AS id described
+in the documentation of the web app's `authorizations` module.
 
 [the corrresponding firmware's README file]: https://gitlab.com/oscore/coap-ace-poc-firmware/-/blob/main/README.md
 

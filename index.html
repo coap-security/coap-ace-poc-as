@@ -20,7 +20,7 @@
         function login_as(role) {
             let params = (new URL(document.location)).searchParams;
             let target = params.get('append_and_redirect');
-            document.location.assign(target + 'bearer%20' + role);
+            document.location.assign(target + 'bearer%20' + role + ';' + role);
         }
     </script>
 </html>
