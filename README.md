@@ -1,3 +1,7 @@
+<!--
+SPDX-FileCopyrightText: Copyright 2022 EDF (Électricité de France S.A.)
+SPDX-License-Identifier: BSD-3-Clause
+-->
 CoAP/ACE PoC: Authorization Server
 ==================================
 
@@ -43,7 +47,9 @@ $ python3 ./demo-as.py
 License
 -------
 
-Copyright 2022 EDF. This software was developed in collaboration with Christian Amsüss.
+This project and all files contained in it is published under the
+BSD-3-Clause license as defined in [`LICENSES/BSD-3-Clause.txt`](LICENSES/BSD-3-Clause.txt).
 
-This software is free software licensed under the BSD-3 Clause License as
-published by the Open Source Initiative. See [the license file](LICENSE.md) for details.
+Copyright: 2022 EDF (Électricité de France S.A.)
+
+Author: Christian Amsüss
