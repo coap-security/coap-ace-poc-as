@@ -100,11 +100,17 @@ class AceServer(BaseHTTPRequestHandler):
 
         scope = self.headers.get('Authorization')
 
+        BITS_GET = 1 << 0
+        BITS_POST = 1 << 1
+        BITS_PUT = 1 << 2
         if scope == 'bearer senior':
-            aif = [['/temp', 0], ['/identify', 1], ['/leds', 2]]
+            # GET is not actually implemented
+            aif = [['/temp', BITS_GET], ['/identify', BITS_POST], ['/leds', BITS_PUT | BITS_GET]]
             expiry = 2 * 60 * 60
         elif scope == 'bearer junior':
-            aif = [['/temp', 0], ['/identify', 1]]
+            # Not giving the junior a GET on leds yet because the firmware
+            # can't keep the bits apart yet
+            aif = [['/temp', BITS_GET], ['/identify', BITS_POST]]
             expiry = 5 * 60
         else:
             self.send_response(HTTPStatus.UNAUTHORIZED)
