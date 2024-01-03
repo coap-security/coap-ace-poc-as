@@ -30,8 +30,8 @@ try:
     assert response.status == 201
     token_response = cbor2.loads(response.read())
     scope = cbor2.loads(token_response[9])
-    assert dict(scope)['/temp'] == 0
-    assert dict(scope)['/identify'] == 1
+    assert dict(scope)['/temp'] == 1
+    assert dict(scope)['/identify'] == 2
     assert 8 in token_response # OSCORE material, will be randomized
 finally:
     sub.kill()
