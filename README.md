@@ -2,10 +2,10 @@
 SPDX-FileCopyrightText: Copyright 2022 EDF (Électricité de France S.A.)
 SPDX-License-Identifier: BSD-3-Clause
 -->
-CoAP/ACE PoC: Authorization Server
-==================================
+CoAP/ACE-OAuth PoC: Authorization Server
+========================================
 
-This repository contains the Authorization Server (AS) part of the CoAP/ACE proof-of-concept implementation.
+This repository contains the Authorization Server (AS) part of the CoAP/ACE-OAuth proof-of-concept implementation.
 
 It is written in Python,
 and generates ACE-OSCORE tokens for known resource servers configured in `./configs/`.
